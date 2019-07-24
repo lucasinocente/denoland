@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Static API Markdown Blog</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+  <script>
+    const post = window.location.search.replace('?','')
+    const render = text => document.getElementById('content').innerHTML = marked(text)
+
+    fetch(`http://localhost:8000/${post}`)
+      .then(res => res.text().then(render))
+      .catch(console.log)
+  </script>
+</body>
+</html>

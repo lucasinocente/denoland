@@ -9,14 +9,15 @@ async function main() {
   for await (const req of server) {
     const { url } = req;
     const filename = `${directory}${url}.md`;
+    const headers = new Headers();
+    headers.append("Content-Type", "text/plain; charset=utf-8");
+    headers.append("Access-Control-Allow-Origin", "*");
     if (existsSync(filename)) {
       const file = readFileStrSync(filename);
       const body = new TextEncoder().encode(file);
-      let headers = new Headers();
-      headers.set("Content-Type", "text/plain; charset=utf-8");
       req.respond({ body, headers });
     } else {
-      req.respond({ body: new TextEncoder().encode(`#404`) });
+      req.respond({ body: new TextEncoder().encode(`# 404`), headers });
     }
   }
 }
